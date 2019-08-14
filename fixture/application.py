@@ -1,12 +1,12 @@
-import requests
 from fixture.hats import HatsHelper
+from fixture.schemas import SchemasHelper
 
 
 class Application:
-    s = requests.session()
-    host = None
 
     def __init__(self, host):
         self.host = host
         self.hats = HatsHelper(self)
+        self.schemas = SchemasHelper(self)
+
 

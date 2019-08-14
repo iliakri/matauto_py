@@ -1,3 +1,5 @@
+import requests
+
 
 class HatsHelper:
 
@@ -5,7 +7,7 @@ class HatsHelper:
         self.app = app
 
     def get_hats(self):
-        return self.app.s.get(self.app.host + '/hats')
+        return requests.get(self.app.host + '/hats')
 
     def get_hats_by_workshop(self, uid: int):
-        return self.app.s.get(self.app.host + f'/hats/workshops/{uid}')
+        return requests.get(self.app.host + f'/hats/workshops/{uid}')
