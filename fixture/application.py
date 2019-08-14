@@ -1,5 +1,6 @@
 from fixture.hats import HatsHelper
 from fixture.schemas import SchemasHelper
+from fixture.workers import WorkersHelper
 
 
 class Application:
@@ -8,5 +9,6 @@ class Application:
         self.host = host
         self.hats = HatsHelper(self)
         self.schemas = SchemasHelper(self)
+        self.workers = WorkersHelper(self)
 
 
