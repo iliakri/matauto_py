@@ -1,6 +1,7 @@
 from fixture.hats import HatsHelper
 from fixture.schemas import SchemasHelper
 from fixture.workers import WorkersHelper
+from fixture.zones import ZonesHelper
 
 
 class Application:
@@ -10,6 +11,7 @@ class Application:
         self.hats = HatsHelper(self)
         self.schemas = SchemasHelper(self)
         self.workers = WorkersHelper(self)
+        self.zones = ZonesHelper(self)
 
 
 
