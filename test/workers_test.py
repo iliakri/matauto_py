@@ -7,13 +7,13 @@ def test_get_worker(app, db):
     with allure.step("getting worker_id from db"):
         worker_id = random.choice(db.get_worker()).id
     with allure.step("get worker with id=%s from api" % worker_id):
-        res = app.workers.get_worker(worker_id)
+        res = app.workshops.get_worker_by_workshop(1, worker_id)
     assert res.status_code == 200
     assert res.headers['Content-Type'] == "application/json"
-    app.schemas.assert_valid_schema(res.json(), 'workers.json')
+    app.schemas.assert_valid_schema(res.json(), 'worker_by_workshop.json')
     assert res.json().get("id") == worker_id
 
-
+"""
 def test_get_worker_by_workshop1(app):
     res = app.workers.get_worker_by_workshop(1)
     assert res.status_code == 200
@@ -26,3 +26,4 @@ def test_get_worker_by_workshop2(app):
     assert res.status_code == 200
     assert res.headers['Content-Type'] == "application/json"
     app.schemas.assert_valid_schema(res.json(), 'workers_by_workshop.json')
+"""

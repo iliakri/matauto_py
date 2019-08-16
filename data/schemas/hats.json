@@ -3,7 +3,19 @@
   "type": "array",
   "items": [
     {
-      "type": "integer"
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "mark": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "mark"
+      ]
     }
   ]
 }

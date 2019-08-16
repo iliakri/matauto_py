@@ -1,0 +1,11 @@
+{
+    "api": {
+        "apiUrl": "http://192.168.12.95:50020/api/v1"
+    },
+  "db": {
+    "host": "192.168.12.10",
+    "dbname": "main_development",
+    "user": "vlad",
+    "password": "1"
+  }
+}

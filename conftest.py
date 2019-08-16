@@ -36,4 +36,4 @@ def db(request):
 
 
 def pytest_addoption(parser):
-    parser.addoption("--target", action="store", default="ppf_prod")
+    parser.addoption("--target", action="store", default="chicken_dev")
