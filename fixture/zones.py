@@ -8,3 +8,6 @@ class ZonesHelper:
 
     def get_zones(self):
         return requests.get(self.app.host + '/workshops/transporters/zones')
+
+    def get_zones_for_conveyor(self, uid: int):
+        return requests.get(self.app.host + f'/workshops/transporters/{uid}/zones')

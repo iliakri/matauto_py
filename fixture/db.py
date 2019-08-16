@@ -11,7 +11,7 @@ class DbFixture:
         self.password = password
         self.connection = psycopg2.connect(host=host, dbname=dbname, user=user, password=password)
 
-    def get_worker_id(self):
+    def get_worker(self):
         list = []
         cursor = self.connection.cursor()
         try:
