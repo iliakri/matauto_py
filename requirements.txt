@@ -1,11 +1,9 @@
 pytest
 jsonpickle
-pony
 psycopg2-binary
 requests
 allure-pytest
 jsonschema
-teamcity-messages
 
 
 
