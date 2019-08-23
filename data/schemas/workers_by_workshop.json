@@ -8,46 +8,21 @@
         "clock_num": {
           "type": "string"
         },
-        "hats": {
-          "type": "array",
-          "items": [
-            {
-              "type": "object",
-              "properties": {
-                "grade": {
-                  "type": "integer"
-                },
-                "hat_id": {
-                  "type": "integer"
-                },
-                "workshop_id": {
-                  "type": "integer"
-                }
-              },
-              "required": [
-                "grade",
-                "hat_id",
-                "workshop_id"
-              ]
-            }
-          ]
-        },
         "id": {
           "type": "integer"
         },
+        "is_deleted": {
+          "type": "boolean"
+        },
         "name": {
           "type": "string"
-        },
-        "workshop_id": {
-          "type": "integer"
         }
       },
       "required": [
         "clock_num",
-        "hats",
         "id",
-        "name",
-        "workshop_id"
+        "is_deleted",
+        "name"
       ]
     }
   ]

@@ -26,3 +26,16 @@ class DbFixture:
     def destroy(self):
         self.connection.close()
 
+    def get_worker_by_id(self):
+        list = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select worker_id from workshop_worker where workshop_id = 1")
+            for row in cursor:
+                (worker_id) = row
+                list.append(Worker(worker_id=worker_id))
+        finally:
+            cursor.close()
+        return list
+
+
