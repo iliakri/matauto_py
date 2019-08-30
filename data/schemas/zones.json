@@ -2,23 +2,45 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "array",
   "items": [
-    {
+        {
       "type": "object",
       "properties": {
+        "config": {
+          "type": "object",
+          "properties": {
+            "x": {
+              "type": "integer"
+            },
+            "y": {
+              "type": "integer"
+            }
+          },
+          "required": [
+            "x",
+            "y"
+          ]
+        },
         "id": {
           "type": "integer"
+        },
+        "mark": {
+          "type": "null"
+        },
+        "name": {
+          "type": "null"
         },
         "sub_id": {
           "type": "integer"
         },
-        "transporter_id": {
+        "total": {
           "type": "integer"
         }
       },
       "required": [
+        "config",
         "id",
         "sub_id",
-        "transporter_id"
+        "total"
       ]
     }
   ]
