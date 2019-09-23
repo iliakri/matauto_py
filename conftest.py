@@ -4,6 +4,7 @@ from fixture.application import Application
 from os.path import join, dirname, abspath
 from fixture.db import DbFixture
 
+
 target = None
 
 
@@ -37,3 +38,12 @@ def db(request):
 
 def pytest_addoption(parser):
     parser.addoption("--target", action="store", default="chicken_dev")
+
+
+def pytest_make_parametrize_id(val, argname):
+    if isinstance(val, int):
+        return f'{argname}={val}'
+    if isinstance(val, str):
+        return f'text is {val}'
+    return repr(val)
+

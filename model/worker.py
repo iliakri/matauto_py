@@ -9,4 +9,4 @@ class Worker:
         self.worker_id = worker_id
 
     def __repr__(self):
-        return "%s" % self.worker_id
+        return "%s, %s" % (self.name, self.clock_num)
