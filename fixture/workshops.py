@@ -51,7 +51,7 @@ class WorkshopsHelper:
         return requests.get(self.app.host + f'/workshops/{workshop_id}/workers')
 
     def create_worker_by_workshop(self, workshop_id: int, worker):
-        #data = {"name": name, "clock_num": clock_num}
+        # data = {"name": name, "clock_num": clock_num}
         return requests.post(self.app.host + f'/workshops/{workshop_id}/workers', json=worker)
 
     def get_worker_by_workshop(self, workshop_id: int, worker_id: int):
