@@ -4,9 +4,10 @@ psycopg2-binary
 requests
 allure-pytest
 jsonschema
+Faker
 
 
-
+r
 
 
 
