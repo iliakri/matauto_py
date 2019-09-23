@@ -2,13 +2,13 @@ import random
 import json
 import allure
 import pytest
-from data.worker import testdata
+from data.worker import data_for_create_worker
 
 
 @pytest.mark.get
 def test_get_worker_by_id(app, db):
     with allure.step("getting worker_id from db"):
-        worker_id = random.choice(db.get_worker_by_id())
+        worker_id = random.choice(db.get_worker_id())
     with allure.step("get worker with worker_id=%s from api" % worker_id):
         res = app.workshops.get_worker_by_workshop(1, worker_id)
     print(json.dumps(res.json(), ensure_ascii=False, indent=2))
@@ -34,7 +34,7 @@ def test_reports(app):
     assert res.status_code == 200
 
 
-@pytest.mark.parametrize("worker", testdata)
+@pytest.mark.parametrize("worker", data_for_create_worker)
 def test_create_worker(app, worker):
     res = app.workshops.create_worker_by_workshop(1, worker)
     print(json.dumps(res.json(), ensure_ascii=False, indent=2))
