@@ -26,7 +26,7 @@ class DbFixture:
     def destroy(self):
         self.connection.close()
 
-    def get_worker_by_id(self):
+    def get_worker_id(self):
         list = []
         cursor = self.connection.cursor()
         try:
@@ -38,5 +38,3 @@ class DbFixture:
         finally:
             cursor.close()
         return list
-
-
