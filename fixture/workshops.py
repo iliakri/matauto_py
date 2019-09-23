@@ -43,20 +43,21 @@ class WorkshopsHelper:
     def get_transporters_by_id(self, transporter_id: int):
         return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}')
 
-    def get_workers_status_by_workshop(self, transporter_id: int):
-        return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}/workers/status')
+    def get_workers_status_by_workshop(self, transporter_id: int, start_date: str, end_date=None):
+        payload = {'start_date': start_date, 'end_date': end_date}
+        return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}/workers/status', params=payload)
 
     def get_workers_by_workshop(self, workshop_id: int):
         return requests.get(self.app.host + f'/workshops/{workshop_id}/workers')
 
-    def create_worker_by_workshop(self, workshop_id: int, name: str, clock_num: int):
-        data = {"name": name, "clock_num": clock_num}
-        return requests.post(self.app.host + f'/workshops/{workshop_id}/workers', json=data)
+    def create_worker_by_workshop(self, workshop_id: int, worker):
+        #data = {"name": name, "clock_num": clock_num}
+        return requests.post(self.app.host + f'/workshops/{workshop_id}/workers', json=worker)
 
     def get_worker_by_workshop(self, workshop_id: int, worker_id: int):
         return requests.get(self.app.host + f'/workshops/{workshop_id}/workers/{worker_id}')
 
-    def put_worker_by_workshop(self, workshop_id: int, worker_id: int, name: str, clock_num: int):
+    def put_worker_by_workshop(self, workshop_id: int, worker_id: int, name: str, clock_num: str):
         data = {"name": name, "clock_num": clock_num}
         return requests.put(self.app.host + f'/workshops/{workshop_id}/workers/{worker_id}', json=data)
 
