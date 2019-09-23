@@ -5,28 +5,28 @@
     {
       "type": "object",
       "properties": {
-        "clock_num": {
-          "type": "string"
-        },
         "id": {
           "type": "integer"
-        },
-        "is_deleted": {
-          "type": "boolean"
         },
         "name": {
           "type": "string"
         },
-        "short_name": {
-          "type": "string"
+        "productivity_count": {
+          "type": "number"
+        },
+        "productivity_weight": {
+          "type": "number"
+        },
+        "tray_weight": {
+          "type": "number"
         }
       },
       "required": [
-        "clock_num",
         "id",
-        "is_deleted",
         "name",
-        "short_name"
+        "productivity_count",
+        "productivity_weight",
+        "tray_weight"
       ]
     }
   ]

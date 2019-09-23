@@ -2,27 +2,19 @@
   "$schema": "http://json-schema.org/draft-04/schema#",
   "type": "object",
   "properties": {
-    "clock_num": {
+    "fullname": {
       "type": "string"
     },
     "id": {
       "type": "integer"
     },
-    "is_deleted": {
-      "type": "boolean"
-    },
     "name": {
-      "type": "string"
-    },
-    "short_name": {
       "type": "string"
     }
   },
   "required": [
-    "clock_num",
+    "fullname",
     "id",
-    "is_deleted",
-    "name",
-    "short_name"
+    "name"
   ]
 }
