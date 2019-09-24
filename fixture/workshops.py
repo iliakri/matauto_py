@@ -19,8 +19,9 @@ class WorkshopsHelper:
         data = {"production_id": production_id, "tray_weight": tray_weight, "productivity_count": productivity_count}
         return requests.put(self.app.host + f'/workshops/transporters/{transporter_id}/normative', json=data)
 
-    def get_shift_by_transporter(self, transporter_id: int):
-        return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}/shifts/workers')
+    def get_shift_by_transporter(self, transporter_id: int, start_date, end_date=None):
+        payload = {'start_date': start_date, 'end_date': end_date}
+        return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}/shifts/workers', params=payload)
 
     def get_shift_by_id(self, shift_id: int):
         return requests.get(self.app.host + f'/workshops/transporters/shifts/{shift_id}')
