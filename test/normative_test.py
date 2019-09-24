@@ -11,6 +11,6 @@ def test_get_normative(app, transporter_id):
 
 
 @pytest.mark.parametrize("transporter_id", (1, 2, 3, 4))
-def test_create_normative(app):
+def test_create_normative(app, transporter_id):
     res = app.workshops.create_normative(1, 2, 3, 4)
     assert res.status_code == 200
