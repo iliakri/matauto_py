@@ -19,9 +19,8 @@ def test_get_worker_by_id(app, db):
 
 
 @pytest.mark.get
-@pytest.mark.parametrize("workshop_id", (1, 2))
-def test_get_workers_by_workshop(app, workshop_id):
-    res = app.workshops.get_workers_by_workshop(workshop_id)
+def test_get_workers_by_workshop(app):
+    res = app.workshops.get_workers_by_workshop(1)
     assert res.status_code == 200
     assert res.headers['Content-Type'] == "application/json"
     app.schemas.assert_valid_schema(res.json(), 'workers_by_workshop.json')
@@ -42,3 +41,11 @@ def test_create_worker(app, worker):
     assert res.headers['Content-Type'] == "application/json"
     app.schemas.assert_valid_schema(res.json(), 'worker_by_workshop.json')
 
+
+@pytest.mark.skip
+@pytest.mark.get
+def test_negative_get_workers_by_workshop(app):
+    res = app.workshops.get_workers_by_workshop(1000)
+    assert res.status_code == 404
+    assert res.headers['Content-Type'] == "application/json"
+    assert str(res.json().get("message")) == "Цех не найден"
