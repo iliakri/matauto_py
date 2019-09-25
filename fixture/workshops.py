@@ -44,7 +44,7 @@ class WorkshopsHelper:
     def get_transporters_by_id(self, transporter_id: int):
         return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}')
 
-    def get_workers_status_by_workshop(self, transporter_id: int, start_date: str, end_date=None):
+    def get_workers_status_by_transporters(self, transporter_id: int, start_date: str, end_date=None):
         payload = {'start_date': start_date, 'end_date': end_date}
         return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}/workers/status', params=payload)
 

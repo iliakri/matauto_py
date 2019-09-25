@@ -26,13 +26,6 @@ def test_get_workers_by_workshop(app):
     app.schemas.assert_valid_schema(res.json(), 'workers_by_workshop.json')
 
 
-@pytest.mark.get
-def test_reports(app):
-    res = app.workshops.get_workers_status_by_workshop(3, '2019-09-23')
-    print(json.dumps(res.json(), ensure_ascii=False, indent=2))
-    assert res.status_code == 200
-
-
 @pytest.mark.parametrize("worker", data_for_create_worker)
 def test_create_worker(app, worker):
     res = app.workshops.create_worker_by_workshop(1, worker)
@@ -42,10 +35,15 @@ def test_create_worker(app, worker):
     app.schemas.assert_valid_schema(res.json(), 'worker_by_workshop.json')
 
 
-@pytest.mark.skip
+@pytest.mark.get
+def test_get_workers_with_paginated(app):
+    res = app.workshops.get_workers_with_paginated(1, 1, 10, "name", "ASC", "Ал")
+    print(json.dumps(res.json(), ensure_ascii=False, indent=2))
+    assert res.status_code == 200
+
+
 @pytest.mark.get
 def test_negative_get_workers_by_workshop(app):
     res = app.workshops.get_workers_by_workshop(1000)
     assert res.status_code == 404
-    assert res.headers['Content-Type'] == "application/json"
-    assert str(res.json().get("message")) == "Цех не найден"
+    # assert str(res.json().get("message")) == "Цех не найден"
