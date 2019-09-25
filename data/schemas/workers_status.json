@@ -1,0 +1,79 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "type": "array",
+  "items": [
+    {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "name": {
+          "type": "string"
+        },
+        "time_end": {
+          "type": "string"
+        },
+        "time_start": {
+          "type": "string"
+        },
+        "workers": {
+          "type": "array",
+          "items": [
+            {
+              "type": "object",
+              "properties": {
+                "clock_num": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "productions": {
+                  "type": "array",
+                  "items": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "count": {
+                          "type": "integer"
+                        },
+                        "name": {
+                          "type": "string"
+                        },
+                        "productivity": {
+                          "type": "integer"
+                        },
+                        "time_work": {
+                          "type": "integer"
+                        }
+                      },
+                      "required": [
+                        "count",
+                        "name",
+                        "productivity",
+                        "time_work"
+                      ]
+                    }
+                  ]
+                }
+              },
+              "required": [
+                "clock_num",
+                "name",
+                "productions"
+              ]
+            }
+          ]
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "time_end",
+        "time_start",
+        "workers"
+      ]
+    }
+  ]
+}

@@ -11,11 +11,8 @@ def test_get_hats_by_workshop(app):
     app.schemas.assert_valid_schema(res.json(), 'hats.json')
 
 
-@pytest.mark.skip
 @pytest.mark.get
 def test_negative_get_hats_by_workshop(app):
     res = app.workshops.get_hats_by_workshop(1000)
-    assert res.status_code == 400
-    assert res.headers['Content-Type'] == "application/json"
-    assert str(res.json().get("message")) == "Цех не найден"
+    assert res.status_code == 404
 
