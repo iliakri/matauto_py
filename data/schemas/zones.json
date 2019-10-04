@@ -24,10 +24,10 @@
           "type": "integer"
         },
         "mark": {
-          "type": "null"
+          "type": ["string", "null"]
         },
         "name": {
-          "type": "null"
+          "type": ["string", "null"]
         },
         "sub_id": {
           "type": "integer"

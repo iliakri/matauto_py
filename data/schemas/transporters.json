@@ -6,10 +6,10 @@
       "type": "object",
       "properties": {
         "extra_production": {
-          "type": "null"
+          "type": ["string", "null"]
         },
         "extra_production_id": {
-          "type": "null"
+          "type": ["integer", "null"]
         },
         "fullname": {
           "type": "string"
@@ -18,10 +18,10 @@
           "type": "integer"
         },
         "main_production": {
-          "type": "null"
+          "type": ["object", "null"]
         },
         "main_production_id": {
-          "type": "null"
+          "type": ["integer", "null"]
         },
         "name": {
           "type": "string"
