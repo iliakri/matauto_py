@@ -1,3 +1,4 @@
+import datetime
 import pytest
 import json
 from fixture.application import Application
@@ -22,6 +23,7 @@ def app(request):
     global target
     api_config = load_config(request.config.getoption("--target") + ".json")['api']
     fixture = Application(host=api_config['apiUrl'])
+    fixture.session.authorize(username=api_config['username'], password=api_config['password'])
     return fixture
 
 
@@ -43,7 +45,29 @@ def pytest_addoption(parser):
 def pytest_make_parametrize_id(val, argname):
     if isinstance(val, int):
         return f'{argname}={val}'
+    if isinstance(val, datetime.date):
+        return f'{argname}={val}'
     if isinstance(val, str):
         return f'text is {val}'
     return repr(val)
+
+
+'''@pytest.fixture(scope="session", autouse="True")
+def debug_requests_on():
+    # Switches on logging of the requests module.
+    HTTPConnection.debuglevel = 1
+    logging.basicConfig()
+    logging.getLogger().setLevel(logging.ERROR)
+    requests_log = logging.getLogger("requests.packages.urllib3")
+    requests_log.setLevel(logging.ERROR)
+    requests_log.propagate = True'''
+
+
+'''@pytest.hookimpl(hookwrapper=True)
+def pytest_runtest_makereport(item, call):
+    outcome = yield
+    report = outcome.get_result()
+    setattr(item, "rep_" + report.when, report)
+    if report.when == 'call' and report.failed:
+        allure.attach(report.capstdout, 'out_log')'''
 
