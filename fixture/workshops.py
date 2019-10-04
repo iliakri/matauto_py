@@ -52,7 +52,6 @@ class WorkshopsHelper:
         return requests.get(self.app.host + f'/workshops/{workshop_id}/workers')
 
     def create_worker_by_workshop(self, workshop_id: int, worker):
-        # data = {"name": name, "clock_num": clock_num}
         return requests.post(self.app.host + f'/workshops/{workshop_id}/workers', json=worker)
 
     def get_worker_by_workshop(self, workshop_id: int, worker_id: int):
@@ -76,5 +75,6 @@ class WorkshopsHelper:
     def download_hats_by_workshop(self, workshop_id: int):
         return requests.get(self.app.host + f'/workshops/{workshop_id}/hats/download')
 
-    def download_report_by_transporter(self, transporter_id: int):
-        return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}/download')
+    def download_report_by_transporter(self, transporter_id: int, start_date, end_date=None):
+        payload = {'start_date': start_date, 'end_date': end_date}
+        return requests.get(self.app.host + f'/workshops/transporters/{transporter_id}/download', params=payload)

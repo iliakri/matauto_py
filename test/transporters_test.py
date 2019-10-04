@@ -1,5 +1,9 @@
+import allure
 import pytest
 import json
+import os
+
+from data.worker import start_date
 
 
 @pytest.mark.get
@@ -54,3 +58,19 @@ def test_get_workers_status(app, transporter_id):
     assert res.status_code == 200
     assert res.headers['Content-Type'] == "application/json"
     app.schemas.assert_valid_schema(res.json(), 'workers_status.json')
+
+
+@pytest.mark.get
+@pytest.mark.parametrize("transporter_id, start_date", start_date)
+def test_get_reports(app, transporter_id, start_date):
+    res = app.workshops.download_report_by_transporter(transporter_id, start_date)
+    assert res.status_code == 200
+    filename = f'report_transporter{transporter_id}_for_{start_date}.xlsx'
+    output = open(filename, 'wb')
+    output.write(res.content)
+    output.close()
+    allure.attach(res.content, filename, "text/csv", ".xlsx")
+    os.remove(filename)
+
+
+
