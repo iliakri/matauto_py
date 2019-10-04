@@ -1,3 +1,4 @@
+import datetime
 import random
 import string
 from faker import Faker
@@ -33,3 +34,7 @@ def random_worker():
         "name": fake.name(),
         "clock_num": fake.pyint()
     }
+
+
+fake_end_date = datetime.date(2019, 9, 24)
+start_date = [(transporter_id, fake.date_between(start_date="-25d", end_date=fake_end_date)) for transporter_id in range(1, 5)]
