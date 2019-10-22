@@ -36,5 +36,5 @@ def random_worker():
     }
 
 
-fake_end_date = datetime.date(2019, 9, 24)
-start_date = [(transporter_id, fake.date_between(start_date="-25d", end_date=fake_end_date)) for transporter_id in range(1, 5)]
+end_date = datetime.date(2019, 10, 1)
+start_date = [(transporter_id, fake.date_between(start_date="-25d", end_date=end_date)) for transporter_id in range(1, 5)]
