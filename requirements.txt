@@ -5,6 +5,8 @@ requests
 allure-pytest
 jsonschema
 Faker
+pandas
+locustio
 
 
 
