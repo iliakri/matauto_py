@@ -8,7 +8,7 @@ Faker
 pandas
 locustio
 openpyxl
-
+xlrd
 
 
 
