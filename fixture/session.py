@@ -1,3 +1,4 @@
+import allure
 import requests
 import json
 
@@ -24,6 +25,6 @@ class SessionHelper:
     def authorize(self, username, password):
         res = self.login(username, password)
         if res.status_code != 201:
-            print(json.dumps(res.json(), ensure_ascii=False, indent=2))
+            allure.attach(json.dumps(res.json(), ensure_ascii=False, indent=2), "Response", "application/json")
         return self.s
 
