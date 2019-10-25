@@ -9,6 +9,7 @@ pandas
 locustio
 openpyxl
 xlrd
+matplotlib
 
 
 
