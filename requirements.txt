@@ -10,6 +10,7 @@ locustio
 openpyxl
 xlrd
 matplotlib
+yattag
 
 
 
