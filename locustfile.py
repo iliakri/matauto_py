@@ -47,7 +47,7 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def get_shift_by_transporter(l):
-        payload = {'start_date': 2019-10-25}
+        payload = {'start_date': '2019-10-25'}
         l.client.get('/workshops/transporters/1/shifts/workers', params=payload)
 
     @task(1)
@@ -76,7 +76,7 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def get_worker_by_workshop(l):
-        l.client.get('/workshops/1/workers/19')
+        l.client.get('/workshops/1/workers/74')
 
 
 class WebsiteUser(HttpLocust):
