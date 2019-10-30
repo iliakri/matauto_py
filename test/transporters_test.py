@@ -68,13 +68,13 @@ def test_get_reports(app, transporter_id, start_date):
     if res.status_code != 200:
         allure.attach(res.url, "link", "text/uri-list")
     assert res.status_code == 200
-    filename = f'report_transporter{transporter_id}_for_{start_date}'
+"""    filename = f'report_transporter{transporter_id}_for_{start_date}'
     bio = BytesIO(res.content)
     writer = pd.ExcelWriter(bio)
     data_xls = pd.read_excel(writer, sheet_name='Отчет мастер', index_col=None)
     data_xls.to_csv(filename, encoding='utf-8', index=False, header=False)
     allure.attach.file(filename, name=filename, attachment_type="text/csv", extension=".csv")
-    os.remove(filename)
+    os.remove(filename)"""
 
 
 
