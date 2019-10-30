@@ -42,7 +42,7 @@
                           "type": "string"
                         },
                         "productivity": {
-                          "type": "integer"
+                          "type": "number"
                         },
                         "time_work": {
                           "type": "integer"
