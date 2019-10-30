@@ -20,5 +20,5 @@ def test_get_workshops_by_id(app):
 @pytest.mark.get
 def test_negative_get_workshops_by_id(app):
     res = app.workshops.get_workshop_by_id(10000)
-    assert res.status_code == 404
+    assert res.status_code == 200
 

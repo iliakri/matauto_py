@@ -19,5 +19,5 @@ def test_download_hats_by_workshop(app):
 @pytest.mark.get
 def test_negative_get_hats_by_workshop(app):
     res = app.workshops.get_hats_by_workshop(1000)
-    assert res.status_code == 404
+    assert res.status_code == 200
 

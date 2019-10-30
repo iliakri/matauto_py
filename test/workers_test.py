@@ -48,5 +48,5 @@ def test_get_workers_with_paginated(app):
 @pytest.mark.get
 def test_negative_get_workers_by_workshop(app):
     res = app.workshops.get_workers_by_workshop(1000)
-    assert res.status_code == 404
+    assert res.status_code == 200
     # assert str(res.json().get("message")) == "Цех не найден"
