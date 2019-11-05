@@ -11,6 +11,7 @@ openpyxl
 xlrd
 matplotlib
 yattag
+teamcity-messages
 
 
 
