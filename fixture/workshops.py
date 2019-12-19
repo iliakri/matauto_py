@@ -7,7 +7,7 @@ class WorkshopsHelper:
         self.app = app
 
     def get_workshops(self):
-        return requests.get(self.app.host + '/workshops/')
+        return requests.get(self.app.host + '/workshops')
 
     def get_workshop_by_id(self, workshop_id: int):
         return requests.get(self.app.host + f'/workshops/{workshop_id}')
