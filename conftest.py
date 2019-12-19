@@ -23,7 +23,7 @@ def app(request):
     global target
     api_config = load_config(request.config.getoption("--target") + ".json")['api']
     fixture = Application(host=api_config['apiUrl'])
-    fixture.session.authorize(username=api_config['username'], password=api_config['password'])
+    fixture.users.authorize(username=api_config['username'], password=api_config['password'])
     return fixture
 
 
@@ -42,14 +42,14 @@ def pytest_addoption(parser):
     parser.addoption("--target", action="store", default="chicken_dev")
 
 
-def pytest_make_parametrize_id(val, argname):
+"""def pytest_make_parametrize_id(val, argname):
     if isinstance(val, int):
         return f'{argname}={val}'
     if isinstance(val, datetime.date):
         return f'{argname}={val}'
     if isinstance(val, str):
         return f'text is {val}'
-    return repr(val)
+    return repr(val)"""
 
 
 '''@pytest.fixture(scope="session", autouse="True")
