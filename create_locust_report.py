@@ -15,7 +15,7 @@ def autolabelh(rects):
 
 def test_create_locust_chart():
     current_datetime = datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
-    data_csv = pd.read_csv("test_result_requests.csv", sep=',')
+    data_csv = pd.read_csv("test_result_response_times.csv", sep=',')
     sorted_data = data_csv.sort_values(by=['Median response time'])
     name, median_response_time = sorted_data['Name'], sorted_data['Median response time']
     bar = plt.barh(range(len(median_response_time)), median_response_time, align='edge', alpha=0.7)
