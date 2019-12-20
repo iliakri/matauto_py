@@ -15,15 +15,16 @@ def autolabelh(rects):
 
 def test_create_locust_chart():
     current_datetime = datetime.datetime.today().strftime("%Y-%m-%d %H:%M:%S")
-    data_csv = pd.read_csv("test_result_response_times.csv", sep=',')
+    data_csv = pd.read_csv("test_result_stats.csv", sep=',')
     sorted_data = data_csv.sort_values(by=['Median response time'])
-    name, median_response_time = sorted_data['Name'], sorted_data['Median response time']
+    type, name, median_response_time = sorted_data['Type'], sorted_data['Name'], sorted_data['Median response time']
     bar = plt.barh(range(len(median_response_time)), median_response_time, align='edge', alpha=0.7)
-    plt.yticks(range(len(name)), name, ha='right', va='bottom', size='small')
+    plt.yticks(range(len(type+name)), type+name, ha='right', va='bottom', size='small')
     plt.subplots_adjust(left=0.3)
     plt.grid(True)
     autolabelh(bar)
     title = current_datetime + ' Load Test Result'
+
     plt.suptitle(title, fontsize=12, weight='bold')
     plt.xlabel('Median Response Time(ms)')
     plt.savefig('locust_report.png', bbox_inches='tight')
