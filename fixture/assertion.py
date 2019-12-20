@@ -12,21 +12,25 @@ class AssertionHelper:
     def __init__(self, app):
         self.app = app
 
-    @allure.step("Проверка ответа")
+    @allure.step('Assert that status_code = {ok_status}')
     def status_code(self, res: requests.Response, ok_status=200) -> requests.Response:
         func = inspect.stack()[2][3]
         if isinstance(ok_status, int):
             ok_status = [ok_status]
         if res.status_code not in ok_status:
             allure.attach(res.url, "link", "text/uri-list")
-            #allure.attach(json.dumps(res.json(), ensure_ascii=False, indent=2), "Response", "application/json")
-            raise ValueError(
-                f"{func} failed: "
-                f"server responded {res.status_code} "
-                f"with data: \n{json.dumps(res.json(), ensure_ascii=False, indent=2)}"
-            )
+            if res.headers['Content-Type'] == "application/json":
+                raise ValueError(
+                    f"{func} failed: "
+                    f"server responded {res.status_code} "
+                    f"with data: \n{json.dumps(res.json(), ensure_ascii=False, indent=2)}"
+                )
+            else:
+                raise ValueError(f"{func} failed: " f"server responded {res.status_code} ")
         else:
             logger.info(
                 f"Verified response: function {func} code {res.status_code}"
             )
         return res.status_code
+
+    # allure.attach(json.dumps(res.json(), ensure_ascii=False, indent=2), "Response", "application/json")
