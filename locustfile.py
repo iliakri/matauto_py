@@ -23,7 +23,7 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def get_hats(l):
-        l.client.get("/workshops/1/hats/")
+        l.client.get("/workshops/1/hats")
 
     @task(1)
     def get_list_workers(l):
@@ -35,7 +35,7 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def get_workshops(l):
-        l.client.get('/workshops/')
+        l.client.get('/workshops')
 
     @task(1)
     def get_workshop_by_id(l):
