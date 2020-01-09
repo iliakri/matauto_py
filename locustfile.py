@@ -75,6 +75,10 @@ class UserBehavior(TaskSet):
         l.client.get('/workshops/1/workers')
 
     @task(1)
+    def get_workers_status(l):
+        l.client.get('/transporters/1/workers/status')
+
+    @task(1)
     def get_worker_by_workshop(l):
         l.client.get('/workshops/1/workers/74')
 
