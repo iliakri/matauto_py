@@ -76,7 +76,7 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def get_workers_status(l):
-        l.client.get('/transporters/1/workers/status')
+        l.client.get('/transporters/1/workers/status?start_date=2019-11-28')
 
     @task(1)
     def get_worker_by_workshop(l):
