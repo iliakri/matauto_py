@@ -6,7 +6,15 @@
       "type": "object",
       "properties": {
         "extra_production": {
-          "type": ["string", "null"]
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         },
         "extra_production_id": {
           "type": ["integer", "null"]
@@ -18,7 +26,15 @@
           "type": "integer"
         },
         "main_production": {
-          "type": ["object", "null"]
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            }
+          }
         },
         "main_production_id": {
           "type": ["integer", "null"]
