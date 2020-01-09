@@ -15,11 +15,11 @@ class UserBehavior(TaskSet):
 
     @task(2)
     def zones_status(l):
-        l.client.get("/workshops/transporters/1/zones/status")
+        l.client.get("/transporters/1/zones/status")
 
     @task(2)
     def get_cameras_by_transporter(l):
-        l.client.get("/workshops/transporters/4/cameras")
+        l.client.get("/transporters/4/cameras")
 
     @task(1)
     def get_hats(l):
@@ -31,7 +31,7 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def get_list_report(l):
-        l.client.get("/workshops/transporters/1/workers/status?start_date=2019-10-14")
+        l.client.get("/transporters/1/workers/status?start_date=2019-12-14")
 
     @task(1)
     def get_workshops(l):
@@ -43,24 +43,24 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def get_normative(l):
-        l.client.get('/workshops/transporters/1/normative')
+        l.client.get('/transporters/1/normative')
 
     @task(1)
     def get_shift_by_transporter(l):
         payload = {'start_date': '2019-10-25'}
-        l.client.get('/workshops/transporters/1/shifts/workers', params=payload)
+        l.client.get('/transporters/1/shifts/workers', params=payload)
 
     @task(1)
     def get_shift_by_id(l):
-        l.client.get('/workshops/transporters/shifts/110')
+        l.client.get('/shifts/110')
 
     @task(1)
     def get_zones_by_transporter(l):
-        l.client.get('/workshops/transporters/1/zones')
+        l.client.get('/transporters/1/zones')
 
     @task(1)
     def get_productions_by_transporter(l):
-        l.client.get('/workshops/transporters/1/productions')
+        l.client.get('/transporters/1/productions')
 
     @task(1)
     def get_transporters_by_workshop(l):
@@ -68,7 +68,7 @@ class UserBehavior(TaskSet):
 
     @task(1)
     def get_transporters_by_id(l):
-        l.client.get('/workshops/transporters/1')
+        l.client.get('/transporters/1')
 
     @task(1)
     def get_workers_by_workshop(l):
