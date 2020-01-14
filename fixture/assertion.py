@@ -1,6 +1,6 @@
 import inspect
 import logging
-import allure
+from allure import step
 import requests
 import json
 
@@ -12,7 +12,7 @@ class AssertionHelper:
     def __init__(self, app):
         self.app = app
 
-    @allure.step('Assert that status_code = {ok_status}')
+    @step('Assert that status_code = {ok_status}')
     def status_code(self, res: requests.Response, ok_status=200) -> requests.Response:
         func = inspect.stack()[2][3]
         if isinstance(ok_status, int):
