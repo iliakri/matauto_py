@@ -1,5 +1,6 @@
 from fixture.assertion import AssertionHelper
 from fixture.groups import GroupsHelper
+from fixture.productions import ProductionsHelper
 from fixture.schemas import SchemasHelper
 from fixture.workshops import WorkshopsHelper
 from fixture.users import UsersHelper
@@ -18,3 +19,5 @@ class Application:
         self.assertion = AssertionHelper(self)
         self.groups = GroupsHelper(self)
         self.transporters = TransportersHelper(self)
+        self.productions = ProductionsHelper(self)
+

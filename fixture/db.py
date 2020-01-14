@@ -38,3 +38,15 @@ class DbFixture:
         finally:
             cursor.close()
         return list
+
+    def get_productions_id(self):
+        productions = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select id from production")
+            for row in cursor:
+                production_id = row[0]
+                productions.append(production_id)
+        finally:
+            cursor.close()
+        return productions
