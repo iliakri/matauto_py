@@ -1,6 +1,5 @@
 import requests
-import json
-import allure
+from allure import step
 
 
 class UsersHelper:
@@ -9,37 +8,37 @@ class UsersHelper:
     def __init__(self, app):
         self.app = app
 
-    @allure.step("Authorization save")
+    @step("Authorize")
     def authorize(self, username, password):
-        res = self.login(username, password)
-        if res.status_code != 201:
-            allure.attach(json.dumps(res.json(), ensure_ascii=False, indent=2), "Response", "application/json")
+        data = {"username": username, "password": password}
+        res = self.s.post(self.app.host + '/users/authorization', json=data)
+        self.app.assertion.status_code(res, [201])
         return self.s
 
-    def get_all_users(self):
-        return self.s.get(self.app.host + '/users')
+    def get_all_users(self, cookies=None):
+        return requests.get(self.app.host + '/users', cookies=cookies)
 
-    def create_user(self, user):
-        return self.s.post(self.app.host + '/users', json=user)
+    def create_user(self, user, cookies=None):
+        return requests.post(self.app.host + '/users', json=user, cookies=cookies)
 
-    def get_user_by_id(self, user_id: int):
-        return self.s.get(self.app.host + f'/users/{user_id}')
+    def get_user_by_id(self, user_id: int, cookies=None):
+        return requests.get(self.app.host + f'/users/{user_id}', cookies=cookies)
 
-    def update_user(self, user_id: int, user):
-        return self.s.put(self.app.host + f'/users/{user_id}', json=user)
+    def update_user(self, user_id: int, user, cookies=None):
+        return requests.put(self.app.host + f'/users/{user_id}', json=user, cookies=cookies)
 
-    def delete_user(self, user_id: int):
-        return self.s.delete(self.app.host + f'/users/{user_id}')
+    def delete_user(self, user_id: int, cookies=None):
+        return requests.delete(self.app.host + f'/users/{user_id}', cookies=cookies)
 
-    def get_user_if_login(self):
-        return self.s.get(self.app.host + '/users/authorization')
+    def get_user_if_login(self, cookies=None):
+        return requests.get(self.app.host + '/users/authorization', cookies=cookies)
 
     def login(self, username, password):
         data = {"username": username, "password": password}
-        return self.s.post(self.app.host + '/users/authorization', json=data)
+        return requests.post(self.app.host + '/users/authorization', json=data)
 
-    def logout(self):
-        return self.s.delete(self.app.host + '/users/authorization')
+    def logout(self, cookies=None):
+        return requests.delete(self.app.host + '/users/authorization', cookies=cookies)
 
 
 

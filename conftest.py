@@ -1,11 +1,13 @@
-import datetime
 import pytest
 import json
+
+from allure import step
+
 from fixture.application import Application
 from os.path import join, dirname, abspath
 from fixture.db import DbFixture
 
-
+fixture = None
 target = None
 
 
@@ -19,12 +21,19 @@ def load_config(file):
 
 
 @pytest.fixture(scope="session")
-def app(request):
-    global target
+def api(request):
+    global fixture
     api_config = load_config(request.config.getoption("--target") + ".json")['api']
-    fixture = Application(host=api_config['apiUrl'])
-    fixture.users.authorize(username=api_config['username'], password=api_config['password'])
+    with step(f"Set API URL = {api_config['apiUrl']}"):
+        fixture = Application(host=api_config['apiUrl'])
     return fixture
+
+
+@pytest.fixture(scope="session")
+def cookies(request):
+    api_config = load_config(request.config.getoption("--target") + ".json")['api']
+    cookies = fixture.users.authorize(username=api_config['username'], password=api_config['password']).cookies
+    return cookies
 
 
 @pytest.fixture(scope="session")
