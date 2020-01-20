@@ -1,8 +1,8 @@
+import importlib
+import jsonpickle
 import pytest
 import json
-
 from allure import step
-
 from fixture.application import Application
 from os.path import join, dirname, abspath
 from fixture.db import DbFixture
@@ -33,22 +33,43 @@ def api(request):
 def cookies(request):
     api_config = load_config(request.config.getoption("--target") + ".json")['api']
     cookies = fixture.users.authorize(username=api_config['username'], password=api_config['password']).cookies
-    return cookies
+    yield cookies
 
 
 @pytest.fixture(scope="session")
 def db(request):
     db_config = load_config(request.config.getoption("--target") + ".json")['db']
-    dbfixture = DbFixture(host=db_config['host'], dbname=db_config['dbname'], user=db_config['user'], password=db_config['password'])
+    dbfixture = DbFixture(host=db_config['host'], dbname=db_config['dbname'], user=db_config['user'],
+                          password=db_config['password'])
 
     def fin():
         dbfixture.destroy()
+
     request.addfinalizer(fin)
     return dbfixture
 
 
 def pytest_addoption(parser):
     parser.addoption("--target", action="store", default="chicken_dev")
+
+
+def pytest_generate_tests(metafunc):
+    for fixture in metafunc.fixturenames:
+        if fixture.startswith("data_"):
+            testdata = load_from_module(fixture[5:])
+            metafunc.parametrize(fixture, testdata)
+        elif fixture.startswith("json_"):
+            testdata = load_from_json(fixture[5:])
+            metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
+
+
+def load_from_module(module):
+    return importlib.import_module("data.%s" % module).testdata
+
+
+def load_from_json(file):
+    with open(join(dirname(abspath(__file__)), "data/%s.json" % file)) as f:
+        return jsonpickle.decode(f.read())
 
 
 """def pytest_make_parametrize_id(val, argname):
@@ -60,7 +81,6 @@ def pytest_addoption(parser):
         return f'text is {val}'
     return repr(val)"""
 
-
 '''@pytest.fixture(scope="session", autouse="True")
 def debug_requests_on():
     # Switches on logging of the requests module.
@@ -71,7 +91,6 @@ def debug_requests_on():
     requests_log.setLevel(logging.ERROR)
     requests_log.propagate = True'''
 
-
 '''@pytest.hookimpl(hookwrapper=True)
 def pytest_runtest_makereport(item, call):
     outcome = yield
@@ -79,4 +98,3 @@ def pytest_runtest_makereport(item, call):
     setattr(item, "rep_" + report.when, report)
     if report.when == 'call' and report.failed:
         allure.attach(report.capstdout, 'out_log')'''
-
