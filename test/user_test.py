@@ -11,8 +11,8 @@ def test_get_user_by_id(api, cookies):
 
 
 @pytest.mark.get
-def test_get_user_if_login(api):
-    res = api.users.get_user_if_login()
+def test_get_user_if_login(api, cookies):
+    res = api.users.get_user_if_login(cookies)
     api.assertion.status_code(res, [200])
     if res.json():
         assert str(res.json().get("id")) == "33"

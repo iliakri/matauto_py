@@ -6,16 +6,16 @@ import pytest
 
 
 @pytest.mark.get
-def test_get_hats_by_workshop(api):
-    res = api.workshops.get_hats_by_workshop(1)
+def test_get_hats_by_workshop(api, cookies):
+    res = api.workshops.get_hats_by_workshop(1, cookies)
     api.assertion.status_code(res, [200])
     if res.json():
         api.schemas.assert_valid_schema(res.json(), 'hats.json')
 
 
 @pytest.mark.get
-def test_download_hats_by_workshop(api):
-    res = api.workshops.download_hats_by_workshop(1)
+def test_download_hats_by_workshop(api, cookies):
+    res = api.workshops.download_hats_by_workshop(1, cookies)
     api.assertion.status_code(res, [200])
     filename = f'hats_list'
     with allure.step("Get report"):
@@ -29,7 +29,7 @@ def test_download_hats_by_workshop(api):
 
 
 @pytest.mark.get
-def test_negative_get_hats_by_workshop(api):
-    res = api.workshops.get_hats_by_workshop(1000)
+def test_negative_get_hats_by_workshop(api, cookies):
+    res = api.workshops.get_hats_by_workshop(1000, cookies)
     api.assertion.status_code(res, [200])
 
