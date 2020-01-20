@@ -1,0 +1,42 @@
+[
+  {
+    "py/object": "model.transporter.Transporter",
+    "id": "",
+    "name": null
+  },
+  {
+    "py/object": "model.transporter.Transporter",
+    "id": {
+      "py/function": "__main__.test_get_transporters_id"
+    },
+    "name": null
+  },
+  {
+    "py/object": "model.transporter.Transporter",
+    "id": {
+      "py/function": "__main__.test_get_transporters_id"
+    },
+    "name": null
+  },
+  {
+    "py/object": "model.transporter.Transporter",
+    "id": {
+      "py/function": "__main__.test_get_transporters_id"
+    },
+    "name": null
+  },
+  {
+    "py/object": "model.transporter.Transporter",
+    "id": {
+      "py/function": "__main__.test_get_transporters_id"
+    },
+    "name": null
+  },
+  {
+    "py/object": "model.transporter.Transporter",
+    "id": {
+      "py/function": "__main__.test_get_transporters_id"
+    },
+    "name": null
+  }
+]
