@@ -78,3 +78,17 @@ def test_get_reports(api, transporter_id, start_date, cookies):
         attach.file(filename, name=filename, attachment_type="text/csv", extension=".csv")
         os.remove(filename)
 
+@pytest.mark.post
+def test_delete_production(api, db, cookies):
+    transporter_id = 4
+    with step("add production to transporter if none"):
+        if len(db.get_production_id_by_transporter(transporter_id)) == 0:
+            add_production = api.transporters.add_production_to_transporter(transporter_id, 1, cookies)
+            api.assertion.status_code(add_production, [200])
+    old_productions = db.get_production_id_by_transporter(transporter_id)
+    production_id = random.choice(old_productions)
+    res = api.transporters.del_production_from_transporter(transporter_id, production_id, cookies)
+    api.assertion.status_code(res, [200])
+    new_productions = db.get_production_id_by_transporter(transporter_id)
+    assert len(old_productions) - 1 == len(new_productions)
+
