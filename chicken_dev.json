@@ -6,7 +6,7 @@
     },
   "db": {
     "host": "192.168.12.10",
-    "dbname": "yar3_production",
+    "dbname": "dev_production",
     "user": "vlad",
     "password": "1"
   }
