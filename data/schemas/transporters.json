@@ -6,41 +6,28 @@
       "type": "object",
       "properties": {
         "extra_production": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer"
-            },
-            "name": {
-              "type": "string"
-            }
-          }
+          "type": ["integer", "null"]
         },
         "extra_production_id": {
           "type": ["integer", "null"]
         },
         "fullname": {
-          "type": "string"
+          "type": ["string", "null"]
         },
         "id": {
           "type": "integer"
         },
         "main_production": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "integer"
-            },
-            "name": {
-              "type": "string"
-            }
-          }
+          "type": ["integer", "null"]
         },
         "main_production_id": {
           "type": ["integer", "null"]
         },
         "name": {
-          "type": "string"
+          "type": ["string", "null"]
+        },
+        "productions":{
+          "type": ["array", "null"]
         },
         "total": {
           "type": "integer"
@@ -54,6 +41,7 @@
         "main_production",
         "main_production_id",
         "name",
+        "productions",
         "total"
       ]
     }
