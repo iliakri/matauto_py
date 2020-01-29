@@ -11,11 +11,10 @@ def test_get_user_by_id(api, cookies):
 
 
 @pytest.mark.get
-def test_get_user_if_login(api, cookies):
-    res = api.users.get_user_if_login(cookies)
+def test_get_user_if_login(api):
+    login = api.users.login('admin', 'admin')
+    res = api.users.get_user_if_login(login.cookies)
     api.assertion.status_code(res, [200])
-    if res.json():
-        assert str(res.json().get("id")) == "33"
 
 
 @pytest.mark.get
@@ -32,6 +31,15 @@ def test_logout(api, cookies):
     api.assertion.status_code(res, [200])
     if res.json():
         assert str(res.json().get("status")) == "success"
+
+
+@pytest.mark.get
+def test_authorization(api):
+    res = api.users.login(username='admin', password='admin')
+    api.assertion.headers(res, 'Set-Cookie')
+    api.assertion.status_code(res, [201])
+
+
 
 
 '''def test_postman():
