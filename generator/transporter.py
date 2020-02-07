@@ -1,4 +1,4 @@
-from fixture.db import DbFixture
+from fixture.dbase import DbFixture
 from model.transporter import Transporter
 import random
 import string

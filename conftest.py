@@ -1,3 +1,4 @@
+import datetime
 import importlib
 import jsonpickle
 import pytest
@@ -5,7 +6,7 @@ import json
 from allure import step
 from fixture.application import Application
 from os.path import join, dirname, abspath
-from fixture.db import DbFixture
+from fixture.dbase import DbFixture
 
 fixture = None
 target = None
@@ -31,26 +32,46 @@ def api(request):
 
 @pytest.fixture(scope="session")
 def cookies(request):
-    api_config = load_config(request.config.getoption("--target") + ".json")['api']
-    cookies = fixture.users.authorize(username=api_config['username'], password=api_config['password']).cookies
+    username = request.config.getoption("auth")
+    cookies = None
+    if username == "admin":
+        api_config = load_config(request.config.getoption("--target") + ".json")['api']
+        cookies = fixture.users.authorize(username=api_config['admin']['username'], password=api_config['admin']['password']).cookies
+    elif username == "master":
+        api_config = load_config(request.config.getoption("--target") + ".json")['api']
+        cookies = fixture.users.authorize(username=api_config['master']['username'], password=api_config['master']['password']).cookies
     yield cookies
 
 
 @pytest.fixture(scope="session")
 def db(request):
     db_config = load_config(request.config.getoption("--target") + ".json")['db']
-    dbfixture = DbFixture(host=db_config['host'], dbname=db_config['dbname'], user=db_config['user'],
-                          password=db_config['password'])
-
-    def fin():
-        dbfixture.destroy()
-
-    request.addfinalizer(fin)
-    return dbfixture
+    dbfixture = DbFixture(host=db_config['host'], dbname=db_config['dbname'], user=db_config['user'], password=db_config['password'])
+    yield dbfixture
+    dbfixture.destroy()
 
 
 def pytest_addoption(parser):
-    parser.addoption("--target", action="store", default="chicken_dev")
+    parser.addoption("--target", action="store", default="chicken_dev", help="Choose stand: chicken_dev or prod")
+    parser.addoption("--auth", action="store", default='admin', help="Choose auth: admin or master")
+
+
+def pytest_itemcollected(item):
+    """ we just collected a test item. """
+    if item.config.getoption("--auth") == 'No':
+        if 'cookies' in item.fixturenames:
+            item.add_marker('xfail')
+        else:
+            item.add_marker('skip')
+
+    '''if hasattr(item, 'callspec'):
+        params = item.callspec.params
+        print(params)
+        if params:
+            for key in params:
+                param = str(params[key])
+                param_len = len(param)'''
+    # if item.get_marker('xfail'):
 
 
 def pytest_generate_tests(metafunc):
@@ -59,8 +80,9 @@ def pytest_generate_tests(metafunc):
             testdata = load_from_module(fixture[5:])
             metafunc.parametrize(fixture, testdata)
         elif fixture.startswith("json_"):
+            get_id_from_bd(fixture[5:])
             testdata = load_from_json(fixture[5:])
-            metafunc.parametrize(fixture, testdata, ids=[str(x) for x in testdata])
+            metafunc.parametrize(fixture, testdata)
 
 
 def load_from_module(module):
@@ -72,14 +94,38 @@ def load_from_json(file):
         return jsonpickle.decode(f.read())
 
 
-"""def pytest_make_parametrize_id(val, argname):
+def load_from_bd(db):
+    transporter_id = db.get_all_transporters_id()
+    return transporter_id
+
+
+@pytest.fixture
+def x(request):
+    return request.getfixturevalue(request.param)
+
+
+def pytest_sessionstart(session):
+    pass
+
+
+def get_id_from_bd(objects):
+    transporter_id = DbFixture(host='192.168.12.10', dbname='dev_production', user='vlad',
+                               password='1').get_all_transporters_id(objects)
+    file = join(dirname(abspath(__file__)), "data/%s.json" % objects)
+    with open(file, "w") as out:
+        jsonpickle.set_encoder_options("json", indent=2)
+        out.write(jsonpickle.encode(transporter_id))
+
+
+def pytest_make_parametrize_id(val, argname):
     if isinstance(val, int):
         return f'{argname}={val}'
     if isinstance(val, datetime.date):
-        return f'{argname}={val}'
+        return f'{argname}'
     if isinstance(val, str):
-        return f'text is {val}'
-    return repr(val)"""
+        return f'{val}'
+    return repr(val)
+
 
 '''@pytest.fixture(scope="session", autouse="True")
 def debug_requests_on():

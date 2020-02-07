@@ -1,5 +1,4 @@
 import psycopg2
-import pytest
 
 from model.worker import Worker
 
@@ -17,10 +16,10 @@ class DbFixture:
         list = []
         cursor = self.connection.cursor()
         try:
-            cursor.execute("select id, name from worker")
+            cursor.execute("select id, name, clock_num from worker")
             for row in cursor:
-                (id, name) = row
-                list.append(Worker(id=id, name=name))
+                (id, name, clock_num) = row
+                list.append(Worker(id=str(id), name=name, clock_num=clock_num))
         finally:
             cursor.close()
         return list
@@ -28,18 +27,18 @@ class DbFixture:
     def destroy(self):
         self.connection.close()
 
-    def get_worker_id(self):
-        list = []
+    def get_workers_id_by_workshop(self, workshop_id):
+        workers_id = []
         cursor = self.connection.cursor()
         try:
-            cursor.execute("select worker_id from workshop_worker where workshop_id = 1")
+            cursor.execute(f"select worker_id from workshop_worker where workshop_id = {workshop_id}")
             for row in cursor:
                 worker_id = row[0]
-                list.append(worker_id)
+                workers_id.append(worker_id)
                 # list.append(Worker(worker_id=worker_id))
         finally:
             cursor.close()
-        return list
+        return workers_id
 
     def get_productions_id(self):
         productions = []
@@ -76,3 +75,15 @@ class DbFixture:
         finally:
             cursor.close()
         return transporters
+
+    def get_shifts_id(self):
+        shifts = []
+        cursor = self.connection.cursor()
+        try:
+            cursor.execute("select id from shift")
+            for row in cursor:
+                production_id = row[0]
+                shifts.append(production_id)
+        finally:
+            cursor.close()
+        return shifts
