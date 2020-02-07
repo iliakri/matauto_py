@@ -61,8 +61,7 @@ def pytest_itemcollected(item):
     if item.config.getoption("--auth") == 'No':
         if 'cookies' in item.fixturenames:
             item.add_marker('xfail')
-        else:
-            item.add_marker('skip')
+        #else: item.add_marker('skip')
 
     '''if hasattr(item, 'callspec'):
         params = item.callspec.params
@@ -95,7 +94,7 @@ def load_from_json(file):
 
 
 def load_from_bd(db):
-    transporter_id = db.get_all_transporters_id()
+    transporter_id = db.get_id_from_db()
     return transporter_id
 
 
@@ -110,7 +109,7 @@ def pytest_sessionstart(session):
 
 def get_id_from_bd(objects):
     transporter_id = DbFixture(host='192.168.12.10', dbname='dev_production', user='vlad',
-                               password='1').get_all_transporters_id(objects)
+                               password='1').get_id_from_db(objects)
     file = join(dirname(abspath(__file__)), "data/%s.json" % objects)
     with open(file, "w") as out:
         jsonpickle.set_encoder_options("json", indent=2)

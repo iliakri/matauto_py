@@ -1,20 +1,22 @@
 from allure import step
 import pytest
 import random
+from generator.worker import transporter_id
 
 
 @pytest.mark.get
 def test_get_all_productions(api, cookies):
     res = api.productions.get_all_productions(cookies)
     api.assertion.status_code(res, [200])
+    # todo assert schemas
     '''if res.json():
-            app.schemas.assert_valid_schema(res.json(), 'all_productions.json')'''
+            api.schemas.assert_valid_schema(res.json(), 'all_productions.json')'''
 
 
 @pytest.mark.get
 def test_get_production_by_id(api, db, cookies):
     with step("Get a random production_id from DB"):
-        production_id = random.choice(db.get_productions_id())
+        production_id = random.choice(db.get_id_from_db('production'))
     with step(f"Get a random production with production_id = {production_id} from API"):
         res = api.productions.get_production_by_id(production_id, cookies)
     api.assertion.status_code(res, [200])
@@ -22,8 +24,8 @@ def test_get_production_by_id(api, db, cookies):
 
 
 @pytest.mark.post
-def test_delete_production(api, db, cookies):
-    transporter_id = 4
+@pytest.mark.parametrize("transporter_id", transporter_id)
+def test_delete_production(api, db, cookies, transporter_id):
     with step("add production to transporter if none"):
         if len(db.get_production_id_by_transporter(transporter_id)) == 0:
             add_production = api.transporters.add_production_to_transporter(transporter_id, 1, cookies)
@@ -35,9 +37,3 @@ def test_delete_production(api, db, cookies):
     new_productions = db.get_production_id_by_transporter(transporter_id)
     assert len(old_productions) - 1 == len(new_productions)
 
-
-
-'''    list_production = api.transporters.get_productions_by_transporter(6).json()
-    list_production_id = []
-    for i in range(len(list_production)):
-        list_production_id.append(list_production[i]['id'])'''

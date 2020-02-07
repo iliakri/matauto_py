@@ -4,12 +4,13 @@ import os
 import pandas as pd
 import random
 from io import BytesIO
-from generator.worker import start_date, trid_and_date
+from generator.worker import start_date, transporter_id
 
 
 @pytest.mark.get
-def test_get_transporters_by_workshop(api, cookies):
-    res = api.workshops.get_transporters_by_workshop(1, cookies)
+@pytest.mark.parametrize("workshop_id", [1, 2])
+def test_get_transporters_by_workshop(api, cookies, workshop_id):
+    res = api.workshops.get_transporters_by_workshop(workshop_id, cookies)
     api.assertion.status_code(res, [200])
     assert res.headers['Content-Type'] == "application/json"
     if res.json():
@@ -28,7 +29,7 @@ def test_get_shifts(api, transporter_id, start_date, cookies):
 
 @pytest.mark.get
 def test_get_shift(api, db, cookies):
-    shift_id = random.choice(db.get_shifts_id())
+    shift_id = random.choice(db.get_id_from_db('shift'))
     res = api.workshops.get_shift_by_id(shift_id, cookies)
     api.assertion.status_code(res, [200])
     assert res.headers['Content-Type'] == "application/json"
@@ -37,7 +38,7 @@ def test_get_shift(api, db, cookies):
 
 
 @pytest.mark.get
-@pytest.mark.parametrize("transporter_id", (1, 2, 3, 4))
+@pytest.mark.parametrize("transporter_id", transporter_id)
 def test_get_cameras(api, transporter_id, cookies):
     res = api.transporters.get_cameras_by_transporter(transporter_id, cookies)
     api.assertion.status_code(res, [200])
@@ -47,7 +48,7 @@ def test_get_cameras(api, transporter_id, cookies):
 
 
 @pytest.mark.get
-@pytest.mark.parametrize("transporter_id", (1, 2, 3, 4))
+@pytest.mark.parametrize("transporter_id", transporter_id)
 def test_get_productions(api, transporter_id, cookies):
     res = api.transporters.get_productions_by_transporter(transporter_id, cookies)
     api.assertion.status_code(res, [200])
@@ -83,8 +84,8 @@ def test_get_reports(api, transporter_id, start_date, cookies):
 
 
 @pytest.mark.post
-def test_delete_production(api, db, cookies):
-    transporter_id = 4
+@pytest.mark.parametrize("transporter_id", transporter_id)
+def test_delete_production(api, db, cookies, transporter_id):
     with step("add production to transporter if none"):
         if len(db.get_production_id_by_transporter(transporter_id)) == 0:
             add_production = api.transporters.add_production_to_transporter(transporter_id, 1, cookies)

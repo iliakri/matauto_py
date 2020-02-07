@@ -12,17 +12,17 @@ class DbFixture:
         self.password = password
         self.connection = psycopg2.connect(host=host, dbname=dbname, user=user, password=password)
 
-    def get_worker(self):
-        list = []
+    def get_workers(self):
+        list_workers = []
         cursor = self.connection.cursor()
         try:
             cursor.execute("select id, name, clock_num from worker")
             for row in cursor:
                 (id, name, clock_num) = row
-                list.append(Worker(id=str(id), name=name, clock_num=clock_num))
+                list_workers.append(Worker(id=str(id), name=name, clock_num=clock_num))
         finally:
             cursor.close()
-        return list
+        return list_workers
 
     @step('DB connection close')
     def destroy(self):
@@ -41,18 +41,6 @@ class DbFixture:
             cursor.close()
         return workers_id
 
-    def get_productions_id(self):
-        productions = []
-        cursor = self.connection.cursor()
-        try:
-            cursor.execute("select id from production")
-            for row in cursor:
-                production_id = row[0]
-                productions.append(production_id)
-        finally:
-            cursor.close()
-        return productions
-
     def get_production_id_by_transporter(self, transporter_id):
         productions = []
         cursor = self.connection.cursor()
@@ -65,27 +53,15 @@ class DbFixture:
             cursor.close()
         return productions
 
-    def get_all_transporters_id(self, object):
-        transporters = []
+    def get_id_from_db(self, object):
+        list_id = []
         cursor = self.connection.cursor()
         try:
-            cursor.execute(f"select id from {object}")
+            cursor.execute(f"select id from public.{object}")
             for row in cursor:
                 transporter_id = row[0]
-                transporters.append(transporter_id)
+                list_id.append(transporter_id)
         finally:
             cursor.close()
-        transporters.sort()
-        return transporters
-
-    def get_shifts_id(self):
-        shifts = []
-        cursor = self.connection.cursor()
-        try:
-            cursor.execute("select id from shift")
-            for row in cursor:
-                production_id = row[0]
-                shifts.append(production_id)
-        finally:
-            cursor.close()
-        return shifts
+        list_id.sort()
+        return list_id

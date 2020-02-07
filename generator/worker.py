@@ -1,9 +1,7 @@
-import datetime
 import random
 import string
 from faker import Faker
 from fixture.dbase import DbFixture
-from conftest import db
 
 # cs_CZ, lv_LV, pl_PL, uk_UA, sl_SI, ru_RU
 fake = Faker('ru_RU')
@@ -32,9 +30,8 @@ def random_worker():
 
 
 def load_from_bd(object):
-    transporter_id = DbFixture(host='192.168.12.10', dbname='dev_production', user='vlad', password='1').get_all_transporters_id(object)
-    '''for item in transporter_id:
-        return item'''
+    transporter_id = DbFixture(host='192.168.12.10', dbname='dev_production', user='vlad', password='1')\
+        .get_id_from_db(object)
     return transporter_id
 
 
@@ -42,5 +39,6 @@ def load_from_bd(object):
 start_date = [(transporter_id, fake.date_between(start_date="-25d", end_date="now")) for transporter_id in range(1, 5)]
 trid_and_date = [(transporter_id, fake.date_between(start_date="-25d", end_date="now")) for transporter_id in load_from_bd("transporter")]
 
-transporter_id = []
-transporter_id.extend(load_from_bd("transporter"))
+workshop_id = [workshop_id for workshop_id in load_from_bd("workshop")]
+transporter_id = [workshop_id for workshop_id in load_from_bd("transporter")]
+#transporter_id.extend(load_from_bd("transporter"))
