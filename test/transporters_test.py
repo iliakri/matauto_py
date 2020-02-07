@@ -4,10 +4,7 @@ import os
 import pandas as pd
 import random
 from io import BytesIO
-
-from generator.worker import start_date
-
-
+from generator.worker import start_date, trid_and_date
 
 
 @pytest.mark.get
@@ -18,6 +15,7 @@ def test_get_transporters_by_workshop(api, cookies):
     if res.json():
         api.schemas.assert_valid_schema(res.json(), 'transporters.json')
 
+
 @pytest.mark.get
 @pytest.mark.parametrize("transporter_id, start_date", start_date)
 def test_get_shifts(api, transporter_id, start_date, cookies):
@@ -27,14 +25,16 @@ def test_get_shifts(api, transporter_id, start_date, cookies):
     if res.json():
         api.schemas.assert_valid_schema(res.json(), 'shifts.json')
 
+
 @pytest.mark.get
-@pytest.mark.parametrize("shift_id", (110, 109))
-def test_get_shift(api, shift_id, cookies):
+def test_get_shift(api, db, cookies):
+    shift_id = random.choice(db.get_shifts_id())
     res = api.workshops.get_shift_by_id(shift_id, cookies)
     api.assertion.status_code(res, [200])
     assert res.headers['Content-Type'] == "application/json"
     if res.json():
         api.schemas.assert_valid_schema(res.json(), 'shift_by_id.json')
+
 
 @pytest.mark.get
 @pytest.mark.parametrize("transporter_id", (1, 2, 3, 4))
@@ -45,6 +45,7 @@ def test_get_cameras(api, transporter_id, cookies):
     if res.json():
         api.schemas.assert_valid_schema(res.json(), 'cameras.json')
 
+
 @pytest.mark.get
 @pytest.mark.parametrize("transporter_id", (1, 2, 3, 4))
 def test_get_productions(api, transporter_id, cookies):
@@ -54,6 +55,7 @@ def test_get_productions(api, transporter_id, cookies):
     if res.json():
         api.schemas.assert_valid_schema(res.json(), 'productions.json')
 
+
 @pytest.mark.get
 @pytest.mark.parametrize("transporter_id, start_date", start_date)
 def test_get_workers_status(api, transporter_id, start_date, cookies):
@@ -62,6 +64,7 @@ def test_get_workers_status(api, transporter_id, start_date, cookies):
     assert res.headers['Content-Type'] == "application/json"
     if res.json():
         api.schemas.assert_valid_schema(res.json(), 'workers_status.json')
+
 
 @pytest.mark.get
 @pytest.mark.parametrize("transporter_id, start_date", start_date)
@@ -78,6 +81,7 @@ def test_get_reports(api, transporter_id, start_date, cookies):
         attach.file(filename, name=filename, attachment_type="text/csv", extension=".csv")
         os.remove(filename)
 
+
 @pytest.mark.post
 def test_delete_production(api, db, cookies):
     transporter_id = 4
@@ -91,4 +95,3 @@ def test_delete_production(api, db, cookies):
     api.assertion.status_code(res, [200])
     new_productions = db.get_production_id_by_transporter(transporter_id)
     assert len(old_productions) - 1 == len(new_productions)
-

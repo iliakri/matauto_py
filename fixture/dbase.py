@@ -1,5 +1,5 @@
 import psycopg2
-
+from allure import step
 from model.worker import Worker
 
 
@@ -24,6 +24,7 @@ class DbFixture:
             cursor.close()
         return list
 
+    @step('DB connection close')
     def destroy(self):
         self.connection.close()
 
@@ -64,16 +65,17 @@ class DbFixture:
             cursor.close()
         return productions
 
-    def get_all_transporters_id(self):
+    def get_all_transporters_id(self, object):
         transporters = []
         cursor = self.connection.cursor()
         try:
-            cursor.execute(f"select id from transporter")
+            cursor.execute(f"select id from {object}")
             for row in cursor:
                 transporter_id = row[0]
                 transporters.append(transporter_id)
         finally:
             cursor.close()
+        transporters.sort()
         return transporters
 
     def get_shifts_id(self):
